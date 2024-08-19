@@ -1,7 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from .serializers import PostSerializer
+from base.models import Post
 
 @api_view(['GET'])
 def getData(request):
-    blog = {'title': 'First post', 'content': 'Hey! Welcome to my first post!'}
-    return Response(blog)
+    posts = Post.objects.all()
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
